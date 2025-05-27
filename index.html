@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Latihan Coding</title>
+   <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  Latihan Coding
+  <div class="profile-container">
+    <div class="profile-icon" id="profileIcon" title="Profil">👤</div>
+    <div class="popup-menu" id="popupMenu">
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌓 Tema</button>
+  <button class="toggle-sidebar" onclick="toggleSidebar()">☰ Tampilkan Menu</button>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="penhtml.html" onclick="loadContent('html')">HTML</a>
+    <a href="pencss.html" onclick="loadContent('css')">CSS</a>
+    <a href="penphp.htm" onclick="loadContent('php')">PHP</a>
+    <a href="penjs.html" onclick="loadContent('js')">JavaScript</a>
+   <a href="#" onclick="navigateWithFade('mahasiswa.php')">Mahasiswa</a>
+
+  </nav>
+
+  <div class="container">
+    <aside id="sidebar">
+      <h3>Tutorial Dasar</h3>
+      <ul>
+        <li><a href="#" onclick="loadContent('html')">HTML Dasar</a></li>
+        <li><a href="#" onclick="loadContent('css')">CSS Dasar</a></li>
+        <li><a href="#" onclick="loadContent('php')">PHP Dasar</a></li>
+        <li><a href="#" onclick="loadContent('js')">JavaScript Dasar</a></li>
+       <li><a href="#" onclick="navigateWithFade('mahasiswa.php')">List Mahasiswa</a></li>
+
+      </ul>
+    </aside>
+
+    <main id="main-content">
+      
+      <div class="content-box show" id="content-box">
+         <h1>Bangun Karirmu Sebagai Developer Profesional</h1>
+    <p>Mulai belajar terarah dengan learning path</p>
+    <a href="penhtml.html" class="cta-button" onclick="loadContent('html')">Belajar Sekarang</a>
+      </div>
+    </main>
+  </div>
+
+  
+
+  <footer class="footer-copyright">
+   <p>© 2025 Dhama Shidqi Putra.</p>
+</footer>
+ <script src="script.js"></script>
+</body>
+</html>

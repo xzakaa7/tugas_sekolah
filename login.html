@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Login</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #000000, #000000);
+      height: 100vh;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .login-box {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      width: 320px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-box h2 {
+      margin: 0 0 20px;
+      padding: 0;
+      color: #333;
+      text-align: center;
+    }
+
+    .input-box {
+      position: relative;
+      margin-bottom: 25px;
+    }
+
+    .input-box input {
+      width: 100%;
+      padding: 10px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #ccc;
+      outline: none;
+      color: #333;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .input-box label {
+      position: absolute;
+      top: 10px;
+      left: 0;
+      color: #999;
+      pointer-events: none;
+      transition: 0.3s;
+    }
+
+    .input-box input:focus ~ label,
+    .input-box input:valid ~ label {
+      top: -10px;
+      font-size: 12px;
+      color: #667eea;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 10px;
+      background: #667eea;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-btn:hover {
+      background: #5a67d8;
+    }
+
+    .message {
+      text-align: center;
+      color: red;
+      margin-top: 15px;
+    }
+
+    .success {
+      color: green;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <h2>Login</h2>
+    <form id="loginForm">
+      <div class="input-box">
+        <input type="text" name="username" id="username" required>
+        <label>Username</label>
+      </div>
+      <div class="input-box">
+        <input type="password" name="password" id="password" required>
+        <label>Password</label>
+      </div>
+      <button type="submit" class="login-btn">Login</button>
+      <div class="message" id="messageBox"></div>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const messageBox = document.getElementById("messageBox");
+
+      fetch("login.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+      })
+      .then(response => response.text())
+      .then(data => {
+        if (data.trim() === "success") {
+          messageBox.textContent = "Login berhasil!";
+          messageBox.classList.remove("error");
+          messageBox.classList.add("success");
+          setTimeout(() => {
+            window.location.href = "index.html";
+          }, 1000);
+        } else {
+          messageBox.textContent = "Username atau password salah.";
+          messageBox.classList.remove("success");
+          messageBox.classList.add("error");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        messageBox.textContent = "Terjadi kesalahan koneksi.";
+        messageBox.classList.remove("success");
+        messageBox.classList.add("error");
+      });
+    });
+  </script>
+
+</body>
+</html>
