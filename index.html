@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Latihan Coding</title>
+  <style>
+    * {
+      margin: 0; padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Kontainer profil di header */
+.profile-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+/* Ikon profil */
+.profile-icon {
+  font-size: 1.5rem;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  padding: 0.4rem;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, border 0.3s;
+  color: #fff; /* default terang */
+}
+
+/* Popup menu */
+.popup-menu {
+  display: none;
+  position: absolute;
+  top: 2.5rem;
+  right: 0;
+  background: #fff;
+  color: #333;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 100;
+}
+
+/* Tombol logout di dalam popup */
+.popup-menu button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+  font-weight: bold;
+}
+
+/* Dark theme overrides */
+body.dark-theme .profile-icon {
+  color: #2c3e50;
+  border-color: #2c3e50;
+}
+
+body.dark-theme .popup-menu {
+  background: #2c3e50;
+  color: #fff;
+}
+
+body.dark-theme .popup-menu button {
+  color: #fff;
+}
+
+header {
+  background-color: #2c3e50;
+  color: white;
+  padding: 1rem 2rem;
+  font-size: 1.8rem;
+
+  display: flex;
+  justify-content: space-between; /* agar profil di kanan */
+  align-items: center;
+  position: relative;
+}
+
+/* Profil icon */
+.profile-container {
+  position: relative;
+}
+
+.profile-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #555;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  user-select: none;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.profile-icon:hover {
+  background-color: #777;
+}
+
+/* Popup dropdown */
+.popup-menu {
+  position: absolute;
+  top: 48px; /* di bawah header */
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  width: 120px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: 1000;
+}
+
+.popup-menu.active {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.popup-menu button {
+  width: 100%;
+  border: none;
+  background: none;
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.popup-menu button:hover {
+  background-color: #f2f2f2;
+}
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      background-color: #34495e;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      padding: 0.7rem;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.4rem 1rem;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #1abc9c;
+    }
+
+    .container {
+      display: flex;
+      flex: 1;
+      transition: all 0.3s ease;
+    }
+
+    aside {
+      width: 220px;
+      background-color: #ecf0f1;
+      padding: 1.2rem;
+      border-right: 1px solid #ccc;
+      transition: all 0.3s ease;
+    }
+
+    aside h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    aside ul {
+      list-style: none;
+    }
+
+    aside ul li {
+      margin-bottom: 0.8rem;
+    }
+
+    aside ul li a {
+      color: #2c3e50;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    aside ul li a:hover {
+      color: #2980b9;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      background-color: white;
+      min-height: 300px;
+      overflow: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .content-box {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease;
+    }
+
+    .content-box.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .content-box h2 {
+      margin-bottom: 1rem;
+      color: #34495e;
+      transition: color 0.3s;
+    }
+
+    .content-box p {
+      font-size: 1rem;
+      color: #555;
+      transition: color 0.3s;
+    }
+
+    .toggle-sidebar {
+      display: none;
+      background: #3498db;
+      color: white;
+      padding: 0.6rem 1rem;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+
+      aside {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+        display: none;
+      }
+
+      aside.show {
+        display: block;
+      }
+
+      .toggle-sidebar {
+        display: block;
+      }
+    }
+
+    /* Tombol Tema */
+   .theme-toggle {
+  position: fixed;
+  bottom: 1rem;  /* pindah ke bawah */
+  right: 1rem;
+  background: #2c3e50;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  transition: background 0.3s, color 0.3s;
+  z-index: 1000;
+}
+
+
+    .theme-toggle:hover {
+      background: #1abc9c;
+      color: black;
+    }
+
+    /* Tema Gelap */
+    body.dark-theme {
+      background-color: #1e1e1e;
+      color: #f0f0f0;
+    }
+
+    body.dark-theme header {
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+.footer-copyright {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: transparent;
+  color: #333;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  user-select: none;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+body.dark-theme .footer-copyright {
+  color: #ddd;
+}
+
+    body.dark-theme nav {
+      background-color: #222;
+    }
+
+    body.dark-theme nav a {
+      color: #f0f0f0;
+    }
+
+    body.dark-theme nav a:hover {
+      background-color: #16a085;
+      color: black;
+    }
+
+    body.dark-theme aside {
+      background-color: #1b1b1b;
+      border-color: #444;
+    }
+
+    body.dark-theme aside ul li a {
+      color: #ccc;
+    }
+
+    body.dark-theme aside ul li a:hover {
+      color: #1abc9c;
+    }
+
+    body.dark-theme main {
+      background-color: #292929;
+      color: #ddd;
+    }
+
+    body.dark-theme .content-box h2 {
+      color: #f1f1f1;
+    }
+
+    body.dark-theme .content-box p {
+      color: #ccc;
+    }
+
+    body.dark-theme .theme-toggle {
+      background: #f39c12;
+      color: black;
+    }
+
+    body.dark-theme .theme-toggle:hover {
+      background: #d35400;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+<header>
+  Latihan Coding
+  <div class="profile-container">
+    <div class="profile-icon" id="profileIcon" title="Profil">👤</div>
+    <div class="popup-menu" id="popupMenu">
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </div>
+</header>
+
+
+
+  <button class="theme-toggle" onclick="toggleTheme()">🌓 Tema</button>
+  <button class="toggle-sidebar" onclick="toggleSidebar()">☰ Tampilkan Menu</button>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="penhtml.html" onclick="loadContent('html')">HTML</a>
+    <a href="pencss.html" onclick="loadContent('css')">CSS</a>
+    <a href="penphp.htm" onclick="loadContent('php')">PHP</a>
+    <a href="penjs.html" onclick="loadContent('js')">JavaScript</a>
+   <a href="#" onclick="navigateWithFade('mahasiswa.php')">Mahasiswa</a>
+
+  </nav>
+
+  <div class="container">
+    <aside id="sidebar">
+      <h3>Tutorial Dasar</h3>
+      <ul>
+        <li><a href="#" onclick="loadContent('html')">HTML Dasar</a></li>
+        <li><a href="#" onclick="loadContent('css')">CSS Dasar</a></li>
+        <li><a href="#" onclick="loadContent('php')">PHP Dasar</a></li>
+        <li><a href="#" onclick="loadContent('js')">JavaScript Dasar</a></li>
+       <li><a href="#" onclick="navigateWithFade('mahasiswa.php')">List Mahasiswa</a></li>
+
+      </ul>
+    </aside>
+
+    <main id="main-content">
+      <div class="content-box show" id="content-box">
+        <h2>Selamat Datang di Latihan Coding</h2>
+        <p>Pilih salah satu menu di atas atau di samping untuk mulai belajar HTML, CSS, PHP, JavaScript, atau melihat daftar mahasiswa.</p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+
+    // Tampilkan/sembunyikan popup profil
+const profileIcon = document.getElementById('profileIcon');
+const popupMenu = document.getElementById('popupMenu');
+
+profileIcon.addEventListener('click', () => {
+  popupMenu.style.display = popupMenu.style.display === 'block' ? 'none' : 'block';
+});
+
+// Tutup popup jika klik di luar
+document.addEventListener('click', function(e) {
+  if (!profileIcon.contains(e.target) && !popupMenu.contains(e.target)) {
+    popupMenu.style.display = 'none';
+  }
+});
+
+// Logout ke login.html
+document.getElementById('logoutBtn').addEventListener('click', function () {
+  popupMenu.style.display = 'none';
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 300);
+});
+
+
+
+// Toggle popup menu
+profileIcon.addEventListener('click', (e) => {
+  e.stopPropagation(); // agar klik ikon tidak memicu document click
+  popupMenu.classList.toggle('active');
+});
+
+// Logout tombol redirect ke login.html
+logoutBtn.addEventListener('click', () => {
+  window.location.href = 'login.html';
+});
+
+// Klik di luar popup untuk tutup popup
+document.addEventListener('click', () => {
+  popupMenu.classList.remove('active');
+});
+
+    function navigateWithFade(url) {
+  const box = document.getElementById("content-box");
+  box.classList.remove("show"); // Trigger fade-out
+  setTimeout(() => {
+    window.location.href = url;
+  }, 400); // Delay sesuai durasi animasi
+}
+
+    function toggleTheme() {
+      document.body.classList.toggle("dark-theme");
+      const isDark = document.body.classList.contains("dark-theme");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    }
+
+    // Aktifkan tema yang disimpan
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme");
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark-theme");
+      }
+    });
+
+    const contentMap = {
+      html: {
+        title: "HTML Dasar",
+        content: "HTML (HyperText Markup Language) digunakan untuk menyusun struktur konten dalam halaman web seperti teks, gambar, dan link."
+      },
+      css: {
+        title: "CSS Dasar",
+        content: "CSS (Cascading Style Sheets) digunakan untuk memperindah tampilan HTML, seperti warna, layout, dan tipografi."
+      },
+      php: {
+        title: "PHP Dasar",
+        content: "PHP adalah bahasa server-side untuk membuat halaman web dinamis dan dapat berinteraksi dengan database."
+      },
+      js: {
+        title: "JavaScript Dasar",
+        content: "JavaScript adalah bahasa pemrograman yang berjalan di browser untuk membuat website menjadi interaktif."
+      },
+
+       list: {
+        title: "JavaScript Dasar",
+        content: "JavaScript adalah bahasa pemrograman yang berjalan di browser untuk membuat website menjadi interaktif."
+      }
+    };
+
+    function loadContent(type) {
+      const box = document.getElementById("content-box");
+      box.classList.remove("show");
+      setTimeout(() => {
+        if (contentMap[type]) {
+          box.innerHTML = `<h2>${contentMap[type].title}</h2><p>${contentMap[type].content}</p>`;
+        } else {
+          box.innerHTML = `<h2>Konten Tidak Ditemukan</h2><p>Silakan pilih topik yang tersedia.</p>`;
+        }
+        box.classList.add("show");
+      }, 300);
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      sidebar.classList.toggle("show");
+    }
+
+        window.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('fade-in');
+    });
+  </script>
+
+  <footer class="footer-copyright">
+   <p>© 2025 Dhama Shidqi Putra.</p>
+</footer>
+
+</body>
+</html>
