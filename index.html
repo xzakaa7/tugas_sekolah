@@ -21,7 +21,7 @@
 
 
   <button class="theme-toggle" onclick="toggleTheme()">🌓 Tema</button>
-  <button class="toggle-sidebar" onclick="toggleSidebar()">☰ Tampilkan Menu</button>
+ 
 
   <nav>
     <a href="index.html">Home</a>
@@ -33,20 +33,20 @@
 
   </nav>
 
-  <div class="container">
-    <aside id="sidebar">
-      <h3>Tutorial Dasar</h3>
-      <ul>
-        <li><a href="#" onclick="loadContent('html')">HTML Dasar</a></li>
-        <li><a href="#" onclick="loadContent('css')">CSS Dasar</a></li>
-        <li><a href="#" onclick="loadContent('php')">PHP Dasar</a></li>
-        <li><a href="#" onclick="loadContent('js')">JavaScript Dasar</a></li>
-       <li><a href="#" onclick="navigateWithFade('mahasiswa.php')">List Mahasiswa</a></li>
+ <div class="container">
+  <aside id="sidebar">
+    <h3>Tutorial Dasar</h3>
+    <ul>
+      <li><a href="#" onclick="loadContent('html'); return false;">HTML Dasar</a></li>
+      <li><a href="#" onclick="loadContent('css'); return false;">CSS Dasar</a></li>
+      <li><a href="#" onclick="loadContent('php'); return false;">PHP Dasar</a></li>
+      <li><a href="#" onclick="loadContent('js'); return false;">JavaScript Dasar</a></li>
+      <li><a href="#" onclick="navigateWithFade('mahasiswa.php'); return false;">List Mahasiswa</a></li>
+    </ul>
+  </aside>
 
-      </ul>
-    </aside>
 
-    <main id="main-content">
+    <main id="main-content" class="show">
       
       <div class="content-box show" id="content-box">
          <h1>Bangun Karirmu Sebagai Developer Profesional</h1>

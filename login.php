@@ -1,28 +1,21 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$db   = "list";
+include 'koneksi.php';
 
-$conn = new mysqli($host, $user, $pass, $db);
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
+$username = $_POST['username'] ?? '';
+$password = $_POST['password'] ?? '';
 
-$username = $_POST['username'];
-$password = $_POST['password'];
-
-// Gunakan prepared statement
-$stmt = $conn->prepare("SELECT * FROM user WHERE username = ?");
+// Cari user di database
+$stmt = $conn->prepare("SELECT password FROM users WHERE username = ?");
 $stmt->bind_param("s", $username);
 $stmt->execute();
-$result = $stmt->get_result();
+$stmt->store_result();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+if ($stmt->num_rows === 1) {
+    $stmt->bind_result($stored_password);
+    $stmt->fetch();
 
-    // Cek apakah password hash atau polos
-    if ($row['password'] === $password) {
+    // COCOKKAN LANGSUNG (karena tidak di-hash)
+    if ($password === $stored_password) {
         echo "success";
     } else {
         echo "fail";
@@ -30,6 +23,3 @@ if ($result->num_rows > 0) {
 } else {
     echo "fail";
 }
-
-$conn->close();
-?>

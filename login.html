@@ -2,51 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Modern Login</title>
+  <title>Login & Register</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(135deg, #000000, #000000);
-      height: 100vh;
       font-family: 'Segoe UI', sans-serif;
+      background: url('p.jpg') no-repeat center center fixed;
+      background-size: cover;
       display: flex;
       justify-content: center;
       align-items: center;
+      height: 100vh;
     }
 
-    .login-box {
-      background: #fff;
-      padding: 40px;
+    .container {
+      width: 350px;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 320px;
-      position: relative;
-      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
     }
 
-    .login-box h2 {
-      margin: 0 0 20px;
-      padding: 0;
-      color: #333;
-      text-align: center;
+    .tab {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+
+    .tab button {
+      background: none;
+      border: none;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      padding-bottom: 5px;
+      border-bottom: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .tab button.active {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    form {
+      display: none;
+      flex-direction: column;
+    }
+
+    form.active {
+      display: flex;
     }
 
     .input-box {
       position: relative;
-      margin-bottom: 25px;
+      margin-bottom: 20px;
     }
 
     .input-box input {
       width: 100%;
       padding: 10px;
-      background: transparent;
       border: none;
       border-bottom: 2px solid #ccc;
       outline: none;
-      color: #333;
       font-size: 16px;
-      transition: 0.3s;
+      background: transparent;
     }
 
     .input-box label {
@@ -60,31 +85,30 @@
 
     .input-box input:focus ~ label,
     .input-box input:valid ~ label {
-      top: -10px;
+      top: -12px;
       font-size: 12px;
       color: #667eea;
     }
 
-    .login-btn {
-      width: 100%;
-      padding: 10px;
+    .btn {
       background: #667eea;
-      border: none;
       color: white;
-      font-size: 16px;
+      padding: 10px;
+      border: none;
       border-radius: 8px;
       cursor: pointer;
-      transition: 0.3s;
+      font-size: 16px;
+      transition: background 0.3s;
     }
 
-    .login-btn:hover {
+    .btn:hover {
       background: #5a67d8;
     }
 
     .message {
       text-align: center;
+      margin-top: 10px;
       color: red;
-      margin-top: 15px;
     }
 
     .success {
@@ -93,61 +117,125 @@
   </style>
 </head>
 <body>
+  <div class="container">
+    <div class="tab">
+      <button class="tablink active" onclick="showTab('login')">Login</button>
+      <button class="tablink" onclick="showTab('register')">Register</button>
+    </div>
 
-  <div class="login-box">
-    <h2>Login</h2>
-    <form id="loginForm">
+    <!-- Login Form -->
+    <form id="loginForm" class="active">
       <div class="input-box">
-        <input type="text" name="username" id="username" required>
+        <input type="text" id="loginUsername" required>
         <label>Username</label>
       </div>
       <div class="input-box">
-        <input type="password" name="password" id="password" required>
+        <input type="password" id="loginPassword" required>
         <label>Password</label>
       </div>
-      <button type="submit" class="login-btn">Login</button>
-      <div class="message" id="messageBox"></div>
+      <button type="submit" class="btn">Login</button>
+      <div class="message" id="loginMessage"></div>
     </form>
+
+    <!-- Register Form -->
+   <!-- Register Form -->
+<form id="registerForm" method="POST" action="register.php">
+  <div class="input-box">
+    <input type="text" id="regNama" name="nama" required>
+    <label>Nama</label>
   </div>
+  <div class="input-box">
+    <input type="text" id="regUsername" name="username" required>
+    <label>Username</label>
+  </div>
+  <div class="input-box">
+    <input type="email" id="regEmail" name="email" required>
+    <label>Email</label>
+  </div>
+  <div class="input-box">
+    <input type="password" id="regPassword" name="password" required>
+    <label>Password</label>
+  </div>
+  <div class="input-box">
+    <input type="text" id="regNoHP" name="no_hp" required>
+    <label>No HP</label>
+  </div>
+  <div class="input-box">
+    <input type="text" id="regAlamat" name="alamat" required>
+    <label>Alamat</label>
+  </div>
+  <button type="submit" class="btn">Register</button>
+  <div class="message" id="registerMessage"></div>
+</form>
 
-  <script>
-    document.getElementById("loginForm").addEventListener("submit", function(e) {
-      e.preventDefault();
 
-      const username = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      const messageBox = document.getElementById("messageBox");
+ <script>
+  const tabs = document.querySelectorAll('.tablink');
+  const forms = document.querySelectorAll('form');
 
-      fetch("login.php", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
-      })
-      .then(response => response.text())
-      .then(data => {
-        if (data.trim() === "success") {
-          messageBox.textContent = "Login berhasil!";
-          messageBox.classList.remove("error");
-          messageBox.classList.add("success");
-          setTimeout(() => {
-            window.location.href = "index.html";
-          }, 1000);
-        } else {
-          messageBox.textContent = "Username atau password salah.";
-          messageBox.classList.remove("success");
-          messageBox.classList.add("error");
-        }
-      })
-      .catch(error => {
-        console.error("Error:", error);
-        messageBox.textContent = "Terjadi kesalahan koneksi.";
-        messageBox.classList.remove("success");
-        messageBox.classList.add("error");
-      });
+  function showTab(tabName) {
+    forms.forEach(form => form.classList.remove('active'));
+    tabs.forEach(tab => tab.classList.remove('active'));
+
+    document.getElementById(tabName + 'Form').classList.add('active');
+    document.querySelector(`.tab button[onclick="showTab('${tabName}')"]`).classList.add('active');
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const username = document.getElementById("loginUsername").value;
+    const password = document.getElementById("loginPassword").value;
+    const msg = document.getElementById("loginMessage");
+
+    fetch("login.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+      },
+      body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+    })
+    .then(response => response.text())
+    .then(data => {
+      if (data.trim() === "success") {
+        msg.textContent = "Login berhasil!";
+        msg.classList.remove("error");
+        msg.classList.add("success");
+        setTimeout(() => window.location.href = "index.html", 1000);
+      } else {
+        msg.textContent = "Username atau password salah.";
+        msg.classList.remove("success");
+        msg.classList.add("error");
+      }
+    })
+    .catch(error => {
+      msg.textContent = "Terjadi kesalahan jaringan.";
+      msg.classList.remove("success");
+      msg.classList.add("error");
     });
-  </script>
+  });
+
+  // Notifikasi registrasi sukses
+  window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const registerStatus = urlParams.get('register');
+    const msg = document.getElementById("loginMessage");
+
+    if (registerStatus === "success") {
+      showTab("login");
+      msg.textContent = "Berhasil registrasi! Silakan login.";
+      msg.classList.remove("error");
+      msg.classList.add("success");
+
+      setTimeout(() => {
+        msg.textContent = "";
+        msg.classList.remove("success");
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      }, 2000);
+    }
+  };
+</script>
+
 
 </body>
 </html>
